@@ -44,10 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
         registerRedirect.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
-//                    Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-//            finish();
         });
         auth_but.setOnClickListener(v -> {
             if (pass.getText().toString().isEmpty() || login.getText().toString().isEmpty()) {
