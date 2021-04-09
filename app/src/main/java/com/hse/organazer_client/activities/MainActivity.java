@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> mNextTakeTime = new ArrayList<>();
     private ArrayList<Date> mStartTakeTime = new ArrayList<>();
     private ArrayList<Date> mStopTakeTime = new ArrayList<>();
+    private ArrayList<Integer> pillPerDay = new ArrayList<>();
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     private static final Gson gson = new Gson();
     private static final OkHttpClient client = new OkHttpClient();
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
     private void initRecyclerView(){
-        RecycleViewAdapter adapter = new RecycleViewAdapter(drugs, mName,mGroup,mNextTakeTime,mStartTakeTime,mStopTakeTime, this);
+        RecycleViewAdapter adapter = new RecycleViewAdapter(drugs, mName,mGroup,mNextTakeTime,mStartTakeTime,mStopTakeTime, this, pillPerDay);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -121,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                             mNextTakeTime.add("Следующие время примема:" + "12.00");
                             mStartTakeTime.add(drug.getStartTakePillsTime());
                             mStopTakeTime.add(drug.getStartTakePillsTime()); // Доделать
+                            pillPerDay.add(drug.getNumOfPillsPerDay());
                             drugs.add(drug);
                         }
                         initRecyclerView();
