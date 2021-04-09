@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="145dp"
+    android:layout_marginTop="2dp"
+    android:padding="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/drug_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/drug"/>
+
+    <TextView
+        android:id="@+id/drug_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@id/drug_image"
+        android:text="Парацетамол"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/user_group"
+        android:background= "@drawable/round_corner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/drug_name"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/drug_image"
+        android:text="Бабушка"
+        android:textColor="#000" />
+
+    <TextView
+        android:id="@+id/start_take_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/drug_image"
+        android:layout_marginTop="97dp"
+        android:text="Время начала приема: "
+        android:textColor="#000"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/strip"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="120dp"
+        android:background="#330000"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/stop_take_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_group"
+        android:layout_marginStart="85dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginTop="39dp"
+        android:layout_toEndOf="@+id/start_take_date"
+        android:layout_toRightOf="@+id/start_take_date"
+        android:text="Время окончания приема: "
+        android:textColor="#000"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/next_take_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_group"
+        android:layout_marginStart="38dp"
+        android:layout_marginLeft="38dp"
+        android:layout_marginTop="13dp"
+        android:layout_toEndOf="@+id/drug_image"
+        android:layout_toRightOf="@+id/drug_image"
+        android:text="Следующий прем в 22.00"
+        android:textColor="#000"
+        android:textSize="11sp" />
+
+</RelativeLayout>

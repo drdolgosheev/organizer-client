@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hse.organazer_client.R;
+import com.hse.organazer_client.entities.dto.AuthDtoFromServer;
 import com.hse.organazer_client.entities.dto.AuthDtoToServer;
 
 import org.jetbrains.annotations.NotNull;
@@ -92,11 +93,14 @@ public class LoginActivity extends AppCompatActivity {
                         System.out.println(response_loc);
                         Toast.makeText(LoginActivity.this, response_loc, Toast.LENGTH_SHORT).show();
                         //todo: send data to next activity using AuthDtoFromServer and gson
-//                        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
-//                                Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(intent);
-//                        finish();
+                        AuthDtoFromServer respJson = gson.fromJson(response_loc, AuthDtoFromServer.class);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("token",respJson.getToken());
+                        intent.putExtra("username",respJson.getUsername());
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
                     });
                 } else {
                     LoginActivity.this.runOnUiThread(() -> {

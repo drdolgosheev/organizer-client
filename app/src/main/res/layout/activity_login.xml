@@ -8,10 +8,11 @@
 
     <EditText
         android:id="@+id/editTextTextUsername"
+        android:background= "@drawable/round_corner_slim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Username"
+        android:hint=" Username"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,9 +23,10 @@
         android:id="@+id/editTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="520dp"
+        android:layout_marginBottom="588dp"
+        android:background="@drawable/round_corner_slim"
         android:ems="10"
-        android:hint="Password"
+        android:hint=" Password"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,14 +35,17 @@
 
     <Button
         android:id="@+id/auth_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="90dp"
+        android:layout_height="36dp"
         android:layout_marginBottom="316dp"
+        android:background="@drawable/round_corner_slim"
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintVertical_bias="0.215" />
 
     <TextView
         android:id="@+id/registerTextActivity"
