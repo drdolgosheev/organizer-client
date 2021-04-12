@@ -82,7 +82,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         holder.drug_name.setText(mName.get(position));
 
         if(mGroup.get(position).equals("Я")) {
-            holder.user_group.setBackground(ContextCompat.getDrawable(mContext, R.drawable.round_corner_slim_green));
+            holder.user_group.setBackgroundColor(Color.RED);
         }
 
         holder.user_group.setText(mGroup.get(position));
@@ -98,21 +98,21 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             Date takeTimeDate = new Date();
             int step = hoursInADay/mPillsPerDay.get(position);
             takeTimeDate.setHours(8+step*(i+1));
-            System.out.println(df2.format(takeTimeDate));
+            Log.e(TAG, df2.format(takeTimeDate));
             takePillsTimeList.add(takeTimeDate);
         }
 
 
         for (int i = 0; i < mPillsPerDay.get(position); i++) {
             Date curDate = new Date();
-            System.out.println("cur_date: "+df2.format(curDate));
+            Log.e(TAG,"cur_date: "+df2.format(curDate));
             if(takePillsTimeList.get(i).after(curDate)){
                 holder.next_take_time.setText("Nearest time: " + df2.format(takePillsTimeList.get(i)));
                 break;
             }
         }
 
-        holder.stop_take_time.setText("Stop take date: " + df1.format(mStopTakeTime.get(position)));
+        holder.stop_take_time.setText("Expire time date: " + df1.format(mStopTakeTime.get(position)));
 
         holder.start_take_time.setText("Start take date: " + df1.format(mStartTakeTime.get(position)));
 

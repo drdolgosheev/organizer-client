@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
-    android:layout_height="145dp"
+    android:layout_height="134dp"
     android:layout_marginTop="2dp"
     android:padding="10dp">
 
@@ -10,7 +10,7 @@
         android:id="@+id/drug_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/drug"/>
+        android:src="@drawable/drug" />
 
     <TextView
         android:id="@+id/drug_name"
@@ -43,14 +43,6 @@
         android:text="Время начала приема: "
         android:textColor="#000"
         android:textSize="11sp" />
-
-    <TextView
-        android:id="@+id/strip"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="120dp"
-        android:background="#330000"
-        android:text="TextView" />
 
     <TextView
         android:id="@+id/stop_take_date"

@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     LoginActivity.this.runOnUiThread(() -> {
                         System.out.println(response_loc);
-                        Toast.makeText(LoginActivity.this, response_loc, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, response_loc, Toast.LENGTH_SHORT).show();
                         //todo: send data to next activity using AuthDtoFromServer and gson
                         AuthDtoFromServer respJson = gson.fromJson(response_loc, AuthDtoFromServer.class);
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);

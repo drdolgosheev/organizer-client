@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RegisterActivity">
+    tools:context=".activities.RegisterActivity"
+    android:background="@drawable/light_blue_background">
 
     <EditText
         android:id="@+id/editTextTextUsernameRegister"
@@ -47,14 +48,15 @@
 
     <EditText
         android:id="@+id/editTextPersonNameRegister"
-        android:background= "@drawable/round_corner_slim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="116dp"
+        android:background="@drawable/round_corner_slim"
         android:ems="10"
         android:hint=" Name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,8 +89,8 @@
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="129dp"
-        android:layout_height="39dp"
+        android:layout_width="124dp"
+        android:layout_height="38dp"
         android:background="@drawable/round_corner_slim"
         android:text=" Register"
         app:layout_constraintBottom_toBottomOf="parent"

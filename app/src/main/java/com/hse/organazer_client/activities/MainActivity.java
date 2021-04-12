@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.hse.organazer_client.R;
 import com.hse.organazer_client.activities.adapters.RecycleViewAdapter;
@@ -34,6 +36,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private FloatingActionButton addDrugButton;
     List<Drug> drugs = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mGroup = new ArrayList<>();
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.ResycleView);
+        addDrugButton = (FloatingActionButton) findViewById(R.id.floatingActionButton_addDrug);
 
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
@@ -59,6 +63,11 @@ public class MainActivity extends AppCompatActivity {
             GETMEDKIT_URL = GETMEDKIT_URL + username;
             get(GETMEDKIT_URL, token);
         }
+
+        addDrugButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, activity_add_drug.class);
+            startActivity(intent);
+        });
     }
 
     @Override
