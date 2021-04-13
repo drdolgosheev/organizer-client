@@ -81,9 +81,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         holder.drug_name.setText(mName.get(position));
 
-        if(mGroup.get(position).equals("Я")) {
-            holder.user_group.setBackgroundColor(Color.RED);
-        }
+//        if(mGroup.get(position).equals("Я")) {
+//            holder.user_group.setBackgroundColor(Color.RED);
+//        }
 
         holder.user_group.setText(mGroup.get(position));
 
@@ -91,7 +91,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         df2.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
 
         DateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
-        df2.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
+        df1.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
 
         List<Date> takePillsTimeList = new ArrayList<>();
         for (int i = 0; i < mPillsPerDay.get(position); i++) {

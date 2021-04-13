@@ -33,6 +33,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.loopj.android.http.AsyncHttpClient.log;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private static final Gson gson = new Gson();
     private static final OkHttpClient client = new OkHttpClient();
     private String GETMEDKIT_URL = "http://20.84.66.14:1335/api/v1/user/get/medKit/";
+    String token = "";
+    String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
-            String username = arguments.getString("username");
-            String token = arguments.getString("token");
+            username = arguments.getString("username");
+            token = arguments.getString("token");
             GETMEDKIT_URL = GETMEDKIT_URL + username;
             get(GETMEDKIT_URL, token);
         }
 
         addDrugButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, activity_add_drug.class);
+            intent.putExtra("token", token);
+            intent.putExtra("username", username);
             startActivity(intent);
         });
     }
@@ -128,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                         for (Drug drug : drugs_ans) {
                             mName.add(drug.getName());
                             mGroup.add("Я");
-                            mNextTakeTime.add("Следующие время примема:" + "12.00");
+                            mNextTakeTime.add("Next take time:" + "12.00");
                             mStartTakeTime.add(drug.getStartTakePillsTime());
                             mStopTakeTime.add(drug.getStartTakePillsTime()); // Доделать
                             pillPerDay.add(drug.getNumOfPillsPerDay());

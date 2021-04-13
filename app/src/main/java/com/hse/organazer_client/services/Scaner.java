@@ -13,13 +13,21 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class Scaner extends Activity implements ZXingScannerView.ResultHandler {
     private static final String TAG = "SCANER: ";
+    String token = "";
+    String username = "";
     private ZXingScannerView mScannerView;
 
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
-        setContentView(mScannerView);                // Set the scanner view as the content view
+        setContentView(mScannerView);// Set the scanner view as the content view
+
+        Bundle arguments = getIntent().getExtras();
+        if (arguments != null) {
+            token = arguments.getString("token");
+            username = arguments.getString("username");
+        }
     }
 
     @Override
@@ -48,6 +56,8 @@ public class Scaner extends Activity implements ZXingScannerView.ResultHandler {
         Intent intent = new Intent(getApplicationContext(), activity_add_drug.class);
         intent.putExtra("code", code);
         intent.putExtra("format", format);
+        intent.putExtra("token", token);
+        intent.putExtra("username", username);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

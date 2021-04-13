@@ -9,8 +9,8 @@
     tools:context=".activities.activity_add_drug">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="327dp"
-        android:layout_height="571dp"
+        android:layout_width="330dp"
+        android:layout_height="585dp"
         android:layout_marginTop="56dp"
         android:background="@drawable/round_corner_slim"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.402">
 
         <Button
-            android:id="@+id/button_add_problem"
+            android:id="@+id/button_add_drug"
             android:layout_width="70dp"
             android:layout_height="37dp"
             android:layout_marginBottom="16dp"
@@ -29,7 +29,6 @@
             android:text="Add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
@@ -39,10 +38,10 @@
             android:src="@drawable/scanner_barcode"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.943"
+            app:layout_constraintHorizontal_bias="0.906"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.789" />
+            app:layout_constraintVertical_bias="0.72" />
 
         <EditText
             android:id="@+id/editTextDrugNameAddDrug"
@@ -58,7 +57,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName2"
+            android:id="@+id/editTextDrugDescription"
             android:layout_width="270dp"
             android:layout_height="108dp"
             android:layout_marginTop="28dp"
@@ -72,7 +71,7 @@
             app:layout_constraintTop_toBottomOf="@+id/editTextDrugNameAddDrug" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/editTextStartTakeTime"
             android:layout_width="99dp"
             android:layout_height="25dp"
             android:layout_marginTop="8dp"
@@ -86,7 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName7"
+            android:id="@+id/editTextNumberInBox"
             android:layout_width="100dp"
             android:layout_height="24dp"
             android:layout_marginTop="10dp"
@@ -100,7 +99,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName8"
+            android:id="@+id/editTextNumberOfPillsPerDay"
             android:layout_width="98dp"
             android:layout_height="26dp"
             android:layout_marginTop="8dp"
@@ -114,7 +113,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName6"
+            android:id="@+id/editTextExpireDate"
             android:layout_width="98dp"
             android:layout_height="25dp"
             android:layout_marginTop="11dp"
@@ -123,7 +122,7 @@
             android:hint="10-03-2004"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.864"
+            app:layout_constraintHorizontal_bias="0.862"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -131,12 +130,14 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="16dp"
             android:text="Start take date"
+            android:textColor="#000"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.11"
+            app:layout_constraintHorizontal_bias="0.103"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDrugDescription" />
 
         <TextView
             android:id="@+id/textView3"
@@ -145,20 +146,24 @@
             android:layout_marginTop="40dp"
             android:text="Nuber of pills on box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintHorizontal_bias="0.129"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/editTextStartTakeTime" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="39dp"
+            android:layout_marginTop="36dp"
             android:text="Number of pills per day"
+            android:textColor="#000"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.961"
+            app:layout_constraintHorizontal_bias="0.985"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName6" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextExpireDate" />
 
         <TextView
             android:id="@+id/textView2"
@@ -166,22 +171,24 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Expire date"
+            android:textColor="#000"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.821"
+            app:layout_constraintHorizontal_bias="0.744"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextDrugDescription" />
 
         <EditText
             android:id="@+id/editTextBarCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/round_corner_slim"
             android:ems="10"
             android:hint="3282770072815"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.222"
+            app:layout_constraintHorizontal_bias="0.216"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -192,9 +199,73 @@
             android:layout_marginTop="32dp"
             android:text="Bar code numbers"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.122"
+            app:layout_constraintHorizontal_bias="0.12"
+            android:textColor="#000"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName7" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextNumberInBox" />
+
+        <ImageView
+            android:id="@+id/imageView_validate"
+            android:layout_width="52dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.093"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextBarCode"
+            app:srcCompat="@drawable/check_verification" />
+
+        <ImageView
+            android:id="@+id/imageView_original"
+            android:layout_width="26dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.463"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextBarCode"
+            app:srcCompat="@drawable/green_checkmark" />
+
+        <TextView
+            android:id="@+id/textView_ver_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="36dp"
+            android:text="Result: "
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.038"
+            app:layout_constraintStart_toEndOf="@+id/imageView_validate"
+            app:layout_constraintTop_toBottomOf="@+id/editTextBarCode" />
+
+        <ImageView
+            android:id="@+id/imageView_notOriginal"
+            android:layout_width="33dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.474"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextBarCode"
+            app:srcCompat="@drawable/red_cross" />
+
+        <TextView
+            android:id="@+id/textView_validate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Validate"
+            android:textColor="#000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.104"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_validate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
