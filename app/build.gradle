@@ -29,7 +29,7 @@ android {
 }
 
 dependencies {
-    compile group: 'javax.mail', name: 'mail', version: '1.4.1'
+    implementation group: 'javax.mail', name: 'mail', version: '1.4.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'

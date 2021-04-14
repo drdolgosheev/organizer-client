@@ -7,24 +7,27 @@ public class drugSimpleDto {
     String prodDate;
     String expDate;
     String numOfPills;
-    String numOfPillsPerDay;
+    Integer numOfPillsPerDay;
     String startTakePillsTime;
-    String takePillsInterval;
+    Integer takePillsInterval;
+    String userGroup;
 
-    public drugSimpleDto(){}
+    public drugSimpleDto() {
+    }
 
     public drugSimpleDto(String name, String barcode, String description, String prodDate, String expDate,
-                Integer numOfPills, Integer numOfPillsPerDay,
-                String startTakePillsTime, Integer takePillsInterval) {
+                         String numOfPills, Integer numOfPillsPerDay,
+                         String startTakePillsTime, Integer takePillsInterval, String userGroup) {
         this.name = name;
         this.barcode = barcode;
         this.description = description;
         this.prodDate = prodDate;
         this.expDate = expDate;
-        this.numOfPills = String.valueOf(numOfPills);
-        this.numOfPillsPerDay = String.valueOf(numOfPillsPerDay);
+        this.numOfPills = numOfPills;
+        this.numOfPillsPerDay = numOfPillsPerDay;
         this.startTakePillsTime = startTakePillsTime;
-        this.takePillsInterval = String.valueOf(takePillsInterval);
+        this.takePillsInterval = takePillsInterval;
+        this.userGroup = userGroup;
     }
 
     public String getName() {
@@ -75,14 +78,6 @@ public class drugSimpleDto {
         this.numOfPills = String.valueOf(numOfPills);
     }
 
-    public Integer getNumOfPillsPerDay() {
-        return Integer.valueOf(numOfPillsPerDay);
-    }
-
-    public void setNumOfPillsPerDay(Integer numOfPillsPerDay) {
-        this.numOfPillsPerDay = String.valueOf(numOfPillsPerDay);
-    }
-
     public String getStartTakePillsTime() {
         return startTakePillsTime;
     }
@@ -91,11 +86,31 @@ public class drugSimpleDto {
         this.startTakePillsTime = startTakePillsTime;
     }
 
+    public String getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(String userGroup) {
+        this.userGroup = userGroup;
+    }
+
+    public void setNumOfPills(String numOfPills) {
+        this.numOfPills = numOfPills;
+    }
+
     public Integer getTakePillsInterval() {
-        return Integer.valueOf(takePillsInterval);
+        return takePillsInterval;
     }
 
     public void setTakePillsInterval(Integer takePillsInterval) {
-        this.takePillsInterval = String.valueOf(takePillsInterval);
+        this.takePillsInterval = takePillsInterval;
+    }
+
+    public Integer getNumOfPillsPerDay() {
+        return numOfPillsPerDay;
+    }
+
+    public void setNumOfPillsPerDay(Integer numOfPillsPerDay) {
+        this.numOfPillsPerDay = numOfPillsPerDay;
     }
 }

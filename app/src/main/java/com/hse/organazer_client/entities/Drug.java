@@ -12,12 +12,13 @@ public class Drug {
     Integer numOfPillsPerDay;
     Date startTakePillsTime;
     Integer takePillsInterval;
+    String userGroup;
 
-    public Drug(){}
+    public Drug() {}
 
     public Drug(String name, String barcode, String description, Date prodDate, Date expDate,
                 Integer numOfPills, Integer numOfPillsPerDay,
-                Date startTakePillsTime, Integer takePillsInterval) {
+                Date startTakePillsTime, Integer takePillsInterval, String userGroup) {
         this.name = name;
         this.barcode = barcode;
         this.description = description;
@@ -27,6 +28,7 @@ public class Drug {
         this.numOfPillsPerDay = numOfPillsPerDay;
         this.startTakePillsTime = startTakePillsTime;
         this.takePillsInterval = takePillsInterval;
+        this.userGroup = userGroup;
     }
 
     public String getName() {
@@ -100,4 +102,13 @@ public class Drug {
     public void setTakePillsInterval(Integer takePillsInterval) {
         this.takePillsInterval = takePillsInterval;
     }
+
+    public String getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(String userGroup) {
+        this.userGroup = userGroup;
+    }
+
 }

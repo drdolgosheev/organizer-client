@@ -133,11 +133,11 @@ public class MainActivity extends AppCompatActivity {
 
                         for (Drug drug : drugs_ans) {
                             mName.add(drug.getName());
-                            mGroup.add("Я");
-                            mNextTakeTime.add("Next take time:" + "12.00");
+                            mGroup.add("Family member: " + drug.getUserGroup());
+                            mNextTakeTime.add("Next take time is tomorrow");
                             mStartTakeTime.add(drug.getStartTakePillsTime());
-                            mStopTakeTime.add(drug.getStartTakePillsTime()); // Доделать
-                            pillPerDay.add(drug.getNumOfPillsPerDay());
+                            mStopTakeTime.add(drug.getExpDate()); // Доделать
+                            pillPerDay.add(drug.getTakePillsInterval());
                             drugs.add(drug);
                         }
                         initRecyclerView();

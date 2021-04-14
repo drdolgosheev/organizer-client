@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,11 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hse.organazer_client.R;
-import com.hse.organazer_client.entities.Drug;
-import com.hse.organazer_client.entities.User;
-import com.hse.organazer_client.entities.dto.AuthDtoFromServer;
 import com.hse.organazer_client.entities.dto.DrugFullDto;
-import com.hse.organazer_client.entities.dto.SingleBooleanDto;
 import com.hse.organazer_client.entities.dto.addDrugToMedKitDto;
 import com.hse.organazer_client.entities.dto.drugSimpleDto;
 import com.hse.organazer_client.services.Scaner;
@@ -26,12 +21,7 @@ import com.hse.organazer_client.services.Scaner;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
-import java.util.TimeZone;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -56,6 +46,7 @@ public class activity_add_drug extends AppCompatActivity {
     EditText drug_name, drug_description, drug_start_take_time, drug_expire_date, num_of_pills;
     EditText num_of_pills_per_day;
     ImageView validate, validate_ok, validate_not_ok;
+    EditText user_group;
     String token = "";
     String code = "";
     String username;
@@ -82,6 +73,7 @@ public class activity_add_drug extends AppCompatActivity {
         validate = findViewById(R.id.imageView_validate);
         validate_ok = findViewById(R.id.imageView_original);
         validate_not_ok = findViewById(R.id.imageView_notOriginal);
+        user_group = findViewById(R.id.editTextUserGroup);
 
         validate_ok.setVisibility(View.INVISIBLE);
         validate_not_ok.setVisibility(View.INVISIBLE);
@@ -120,10 +112,11 @@ public class activity_add_drug extends AppCompatActivity {
                     num_of_pills_per_day.getText().toString().equals(""))) {
                 log.e(TAG, (String.valueOf(barcode.getText().equals(null))));
                 drugSimpleDto drug = new drugSimpleDto();
+                drug.setUserGroup(user_group.getText().toString());
                 drug.setName(drug_name.getText().toString());
                 drug.setBarcode(barcode.getText().toString());
                 drug.setDescription(drug_description.getText().toString());
-                drug.setNumOfPills(Integer.valueOf(num_of_pills.getText().toString()));
+                drug.setNumOfPills(num_of_pills.getText().toString());
                 drug.setNumOfPillsPerDay(Integer.valueOf(num_of_pills_per_day.getText().toString()));
                 drug.setTakePillsInterval(Integer.valueOf(num_of_pills_per_day.getText().toString()));
 
@@ -237,6 +230,7 @@ public class activity_add_drug extends AppCompatActivity {
                 .post(body)
                 .build();
         log.e(TAG, json);
+        log.e(TAG, request.toString());;
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {

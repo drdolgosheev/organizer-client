@@ -121,7 +121,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 //                intent.putExtra("position", position);
 //                intent.putExtra("user", true);
 //                mContext.startActivity(intent);
-//                Toast.makeText(mContext,"Статус: " + Problem.getStatus(mStatus.get(position)), Toast.LENGTH_LONG).show();
         });
     }
 
