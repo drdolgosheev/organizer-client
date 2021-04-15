@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.hse.organazer_client.R;
 import com.hse.organazer_client.entities.Drug;
 
@@ -29,9 +33,13 @@ import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder >{
-    private static final String TAG = "RecycleViewAdapter";;
+import static com.loopj.android.http.AsyncHttpClient.log;
 
+public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder >{
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+
+    private static final String TAG = "RecycleViewAdapter";;
     private List<Drug> drugs = new ArrayList<>();
     private ArrayList<String> mName = new ArrayList<>();
     private ArrayList<String> mGroup = new ArrayList<>();
@@ -69,15 +77,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         Log.d(TAG,"Is called.");
         int hoursInADay = 22-8;
-//        StorageReference riversRef = storageRef.child("images/" + fb_user.getEmail() + "/" + real_pos+".jpeg");
-//        riversRef.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Glide.with(mContext)
-//                        .load(uri)
-//                        .into(holder.image);
-//            }
-//        });
+        StorageReference riversRef = storageRef.child("test/" + mName.get(position) + ".jpeg");
+        log.e(TAG, mName.get(position));
+        riversRef.getDownloadUrl().addOnSuccessListener(uri -> Glide.with(mContext)
+                .load(uri)
+                .into(holder.image));
 
         holder.drug_name.setText(mName.get(position));
 
@@ -93,6 +97,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         DateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
         df1.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
 
+        DateFormat df3 = new SimpleDateFormat("HH:mm");
+        df2.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
+
         List<Date> takePillsTimeList = new ArrayList<>();
         for (int i = 0; i < mPillsPerDay.get(position); i++) {
             Date takeTimeDate = new Date();
@@ -107,8 +114,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             Date curDate = new Date();
             Log.e(TAG,"cur_date: "+df2.format(curDate));
             if(takePillsTimeList.get(i).after(curDate)){
-                holder.next_take_time.setText("Nearest time: " + df2.format(takePillsTimeList.get(i)));
+                holder.next_take_time.setText("Nearest time today at: " + df3.format(takePillsTimeList.get(i)));
                 break;
+            }else {
+                holder.next_take_time.setText("Next take time is tomorrow: " + df3.format(takePillsTimeList.get(0)));
             }
         }
 

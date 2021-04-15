@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                             mGroup.add("Family member: " + drug.getUserGroup());
                             mNextTakeTime.add("Next take time is tomorrow");
                             mStartTakeTime.add(drug.getStartTakePillsTime());
-                            mStopTakeTime.add(drug.getExpDate()); // Доделать
+                            mStopTakeTime.add(drug.getExpDate());
                             pillPerDay.add(drug.getTakePillsInterval());
                             drugs.add(drug);
                         }
