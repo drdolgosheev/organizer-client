@@ -15,7 +15,8 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".activities.AddDrugCard"></activity>
         <activity android:name=".services.Scaner" />
-        <activity android:name=".activities.activity_add_drug" />
+        <activity android:name=".activities.activity_add_drug"
+            android:theme="@style/AppTheme.Transparent"/>
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LoginActivity">

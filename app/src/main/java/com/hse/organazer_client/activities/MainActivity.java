@@ -1,31 +1,22 @@
 package com.hse.organazer_client.activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.hse.organazer_client.R;
 import com.hse.organazer_client.activities.adapters.RecycleViewAdapter;
 import com.hse.organazer_client.entities.Drug;
-import com.hse.organazer_client.entities.dto.AuthDtoFromServer;
-import com.hse.organazer_client.entities.dto.ListDrugDto;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,10 +26,7 @@ import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-
-import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -85,31 +73,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
     }
-
-//    private void InitBitMap(String username, String token){
-//        db.collection("users").document(mail).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                Log.e("TAG", mail);
-//                cur_user = documentSnapshot.toObject(User.class);
-//                if (cur_user.getProblemCount() != 0) {
-//                    problemList = cur_user.getProblems();
-//
-//                    for (counter = 1; counter <= cur_user.getProblemCount(); counter++) {
-//                        Log.e("COUNTER1", " " + counter);
-//                        Log.e("PROB1", " " + cur_user.getProblemCount());
-//                        mImagesName.add(problemList.get(counter - 1).getName());
-//                        Log.e("mName: ", mImagesName.toString());
-//                        mDescr.add(problemList.get(counter - 1).getDescription());
-//                        // Тут возможно что то не так
-//                        mStatus.add(problemList.get(counter - 1).getStatus());
-//                    }
-//
-//
-//                }
-//            }
-//        });
-//    }
 
     private void initRecyclerView(){
         RecycleViewAdapter adapter = new RecycleViewAdapter(drugs, mName,mGroup,mNextTakeTime,mStartTakeTime,mStopTakeTime, this, pillPerDay);

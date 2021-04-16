@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.google.zxing.Result;
 import com.hse.organazer_client.activities.MainActivity;
@@ -20,6 +21,7 @@ public class Scaner extends Activity implements ZXingScannerView.ResultHandler {
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mScannerView = new ZXingScannerView(this);   // Programmatically initialize the scanner view
         setContentView(mScannerView);// Set the scanner view as the content view
 
@@ -58,8 +60,6 @@ public class Scaner extends Activity implements ZXingScannerView.ResultHandler {
         intent.putExtra("format", format);
         intent.putExtra("token", token);
         intent.putExtra("username", username);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
 

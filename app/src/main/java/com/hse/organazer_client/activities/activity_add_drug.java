@@ -3,9 +3,11 @@ package com.hse.organazer_client.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,9 +59,13 @@ public class activity_add_drug extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme_Transparent);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_add_drug);
+
+        View w = new View(activity_add_drug.this);
+
+        w.setClipToOutline(true);
 
         add = findViewById(R.id.button_add_drug);
         scanner = findViewById(R.id.photo_but_scaner);

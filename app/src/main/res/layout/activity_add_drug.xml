@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:theme="@android:style/Theme.Dialog"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/add_drug_layout"
@@ -11,14 +10,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="322dp"
         android:layout_height="657dp"
-        android:layout_marginTop="56dp"
         android:background="@drawable/round_corner_slim"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402">
+        app:layout_constraintVertical_bias="0.783">
 
         <Button
             android:id="@+id/button_add_drug"
