@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -53,6 +54,10 @@ public class activity_add_drug extends AppCompatActivity {
     String code = "";
     String username;
     Button add;
+    public static final String myPrefs = "myprefs";
+    public static final String nameKeyUsername = "username";
+    public static final String nameKeyToken = "token";
+    SharedPreferences mySharedPreferences;
 
     @SuppressWarnings("deprecation")
     @SuppressLint("NewApi")
@@ -89,6 +94,7 @@ public class activity_add_drug extends AppCompatActivity {
             intent.putExtra("token", token);
             intent.putExtra("username", username);
             startActivity(intent);
+            finish();
         });
 
         Bundle arguments = getIntent().getExtras();

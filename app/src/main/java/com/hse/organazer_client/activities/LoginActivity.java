@@ -1,8 +1,15 @@
 package com.hse.organazer_client.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +39,12 @@ public class LoginActivity extends AppCompatActivity {
     private Button auth_but;
     private EditText pass, login;
     private TextView registerRedirect;
+    public static final String myPrefs = "myprefs";
+    public static final String nameKeyUsername = "username";
+    public static final String nameKeyToken = "token";
+    SharedPreferences mySharedPreferences;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         pass = (EditText) findViewById(R.id.editTextPassword);
         registerRedirect = (TextView) findViewById(R.id.registerTextActivity);
 
+        mySharedPreferences = getSharedPreferences(myPrefs, Context.MODE_PRIVATE);
+        if (mySharedPreferences.contains(nameKeyUsername)) {
+            // если есть, то ставим значение этого ключа в EditText
+        }
         registerRedirect.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
@@ -60,16 +76,36 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onStart() {
         super.onStart();
+        createNotificationChanel();
     }
 
     public void signIn(String email, String password) throws IOException {
         AuthDtoToServer authDtoToServer = new AuthDtoToServer(email, password);
         post(AUTH_URL, gson.toJson(authDtoToServer));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createNotificationChanel(){
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        String channelId = "some_channel_id";
+        CharSequence channelName = "Some Channel";
+        int importance = NotificationManager.IMPORTANCE_LOW;
+        NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.enableVibration(true);
+        notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+        notificationManager.createNotificationChannel(notificationChannel);
     }
 
 
@@ -91,9 +127,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     LoginActivity.this.runOnUiThread(() -> {
                         System.out.println(response_loc);
-//                        Toast.makeText(LoginActivity.this, response_loc, Toast.LENGTH_SHORT).show();
                         //todo: send data to next activity using AuthDtoFromServer and gson
                         AuthDtoFromServer respJson = gson.fromJson(response_loc, AuthDtoFromServer.class);
+                        saveText(respJson.getToken(), respJson.getUsername());
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         intent.putExtra("token",respJson.getToken());
                         intent.putExtra("username",respJson.getUsername());
@@ -110,5 +146,19 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void saveText(String token, String username) {
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+
+        if(mySharedPreferences.contains(nameKeyUsername)){
+            editor.remove(nameKeyUsername);
+            editor.remove(nameKeyToken);
+            editor.apply();
+        }
+
+        editor.putString(nameKeyToken, token);
+        editor.putString(nameKeyUsername, username);
+        editor.apply();
     }
 }

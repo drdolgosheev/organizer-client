@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     private String GETMEDKIT_URL = "http://20.84.66.14:1335/api/v1/user/get/medKit/";
     String token = "";
     String username = "";
+    public static final String myPrefs = "myprefs";
+    public static final String nameKeyUsername = "username";
+    public static final String nameKeyToken = "token";
+    SharedPreferences mySharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +60,10 @@ public class MainActivity extends AppCompatActivity {
         addDrugButton = (FloatingActionButton) findViewById(R.id.floatingActionButton_addDrug);
 
         Bundle arguments = getIntent().getExtras();
-        if (arguments != null) {
-            username = arguments.getString("username");
-            token = arguments.getString("token");
+        mySharedPreferences = getSharedPreferences(myPrefs, Context.MODE_PRIVATE);
+        if (mySharedPreferences.contains(nameKeyUsername)) {  // arguments != null
+            username = mySharedPreferences.getString(nameKeyUsername, ""); // arguments.getString("username");
+            token = mySharedPreferences.getString(nameKeyToken, "");;
             GETMEDKIT_URL = GETMEDKIT_URL + username;
             get(GETMEDKIT_URL, token);
         }
