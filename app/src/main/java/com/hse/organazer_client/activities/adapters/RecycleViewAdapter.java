@@ -2,6 +2,7 @@ package com.hse.organazer_client.activities.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.hse.organazer_client.R;
+import com.hse.organazer_client.activities.DrugInfoCard;
 import com.hse.organazer_client.entities.Drug;
 
 import java.text.DateFormat;
@@ -126,10 +128,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         holder.start_take_time.setText("Start take date: " + df1.format(mStartTakeTime.get(position)));
 
         holder.layout.setOnClickListener(v -> {
-//                Intent intent = new Intent(mContext, problemCard.class);
-//                intent.putExtra("position", position);
-//                intent.putExtra("user", true);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, DrugInfoCard.class);
+                intent.putExtra("name", mName.get(position));
+                mContext.startActivity(intent);
         });
     }
 

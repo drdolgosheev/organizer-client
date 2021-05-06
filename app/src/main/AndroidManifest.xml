@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Organazerclient"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.AddDrugCard"></activity>
+        <activity android:name=".activities.DrugInfoCard"
+            android:theme="@style/AppTheme.Transparent"/>
         <activity android:name=".services.Scaner" />
         <activity android:name=".activities.activity_add_drug"
             android:theme="@style/AppTheme.Transparent"/>
