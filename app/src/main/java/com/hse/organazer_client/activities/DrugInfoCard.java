@@ -3,12 +3,9 @@ package com.hse.organazer_client.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,19 +15,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.hse.organazer_client.R;
-import com.hse.organazer_client.entities.Drug;
+import com.hse.organazer_client.entities.dto.DatesDto;
 import com.hse.organazer_client.entities.dto.DrugFullDto;
-import com.hse.organazer_client.entities.dto.addDrugToMedKitDto;
-import com.hse.organazer_client.entities.dto.drugSimpleDto;
-import com.hse.organazer_client.services.Scaner;
+import com.hse.organazer_client.entities.dto.StringDto;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,10 +32,7 @@ import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-
-import static com.loopj.android.http.AsyncHttpClient.log;
 
 
 public class DrugInfoCard extends AppCompatActivity {
@@ -145,8 +135,8 @@ public class DrugInfoCard extends AppCompatActivity {
                 String data = response.body().string();
                 if (response.code() == 200) {
                     DrugInfoCard.this.runOnUiThread(() -> {
-                        String barcode = gson.fromJson(data, String.class);
-                        getDrugData(barcode, token);
+                        StringDto barcode = gson.fromJson(data, StringDto.class);
+                        getDrugData(barcode.getData(), token);
                     });
                 } else {
                     DrugInfoCard.this.runOnUiThread(() -> {
@@ -158,6 +148,11 @@ public class DrugInfoCard extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets drug data
+     * @param barcode drug barcode
+     * @param token user token
+     */
     public void getDrugData(String barcode, String token) {
         Request request = new Request.Builder()
                 .url(URL_GET_DRUG + barcode)
@@ -183,7 +178,8 @@ public class DrugInfoCard extends AppCompatActivity {
                             drugDescription.setText(dto.getDescription());
                             drugName.setText(dto.getName());
                             userGroup.setText(dto.getGroup());
-                            pillsLeft.setText(dto.getNumOfPills());
+                            System.out.println(dto.getNumOfPills().toString());
+                            pillsLeft.setText(dto.getNumOfPills().toString());
                             startTakeDate.setText(df3.format(dto.getStartTakePillsTime()));
                             expireDate.setText(df3.format(dto.getExpDate()));
 //                            takePillsTime.setText(dt);
@@ -199,6 +195,11 @@ public class DrugInfoCard extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get pills take time
+     * @param barcode drug barcode
+     * @param token user token
+     */
     public void getDrugTakeTime(String barcode, String token) {
         Request request = new Request.Builder()
                 .url(URL_GET_TIME + barcode)
@@ -216,16 +217,16 @@ public class DrugInfoCard extends AppCompatActivity {
                 String data = response.body().string();
                 if (response.code() == 200) {
                     DrugInfoCard.this.runOnUiThread(() -> {
-                        Date[] dates = gson.fromJson(data, Date[].class);
+                        DatesDto dates = gson.fromJson(data, DatesDto.class);
                         if (dates != null) {
                             DateFormat df3 = new SimpleDateFormat("HH:mm");
                             df3.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
                             StringBuilder result = new StringBuilder("Take time daily at: ");
 
-                            for (int i = 0; i < dates.length - 1; i++) {
-                                result.append(df3.format(dates[i])).append("  ");
+                            for (int i = 0; i < dates.getDate().size(); i++) {
+                                result.append(df3.format(dates.getDate().get(i))).append("  ");
                             }
-
+                            System.out.println(result.toString());
                             takePillsTime.setText(result.toString());
                         }
                     });
