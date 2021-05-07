@@ -106,7 +106,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         for (int i = 0; i < mPillsPerDay.get(position); i++) {
             Date takeTimeDate = new Date();
             int step = hoursInADay/mPillsPerDay.get(position);
+            takeTimeDate.setHours(0);
             takeTimeDate.setHours(8+step*(i+1));
+            takeTimeDate.setMinutes(0);
+            takeTimeDate.setSeconds(0);
             Log.e(TAG, df2.format(takeTimeDate));
             takePillsTimeList.add(takeTimeDate);
         }

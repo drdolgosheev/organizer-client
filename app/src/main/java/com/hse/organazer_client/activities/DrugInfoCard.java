@@ -3,9 +3,13 @@ package com.hse.organazer_client.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +19,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.hse.organazer_client.R;
+import com.hse.organazer_client.entities.dto.AuthDtoFromServer;
 import com.hse.organazer_client.entities.dto.DatesDto;
+import com.hse.organazer_client.entities.dto.DeleteFromMedKitDto;
 import com.hse.organazer_client.entities.dto.DrugFullDto;
 import com.hse.organazer_client.entities.dto.StringDto;
 
@@ -24,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,6 +39,7 @@ import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -50,18 +58,21 @@ public class DrugInfoCard extends AppCompatActivity {
     String URL_GET_DRUG = "http://20.84.66.14:1335/api/v1/drug/getDrugByBarcode/";
     String URL_GET_TIME = "http://20.84.66.14:1335/api/v1/drug/getDrugsTakeTime/"; // + barcode
     String URL_GET_BARCODE = "http://20.84.66.14:1335/api/v1/drug/getBarcodeByName/"; // + name
+    String URL_REMOVE_DRUG = "http://20.84.66.14:1335/api/v1/user/deleteDrugFromMedKit";
 
     // View
     CircleImageView image;
     TextView takePillsTime, userGroup, drugName, drugDescription,
             pillsLeft, startTakeDate, expireDate;
     ImageView closeButton;
+    Button removeDrug;
 
     // Local data
     public static final String myPrefs = "myprefs";
     public static final String nameKeyUsername = "username";
     public static final String nameKeyToken = "token";
     SharedPreferences mySharedPreferences;
+    Boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +90,9 @@ public class DrugInfoCard extends AppCompatActivity {
         startTakeDate = findViewById(R.id.drug_info_start_take_date);
         expireDate = findViewById(R.id.drug_info_user_exp_date_text_view);
         closeButton = findViewById(R.id.close_button);
+        removeDrug = findViewById(R.id.drug_info_delete_button);
 
-        String username, token, drugName = null;
+        String username = null, token = null, drugName = null;
 
         Bundle arguments = getIntent().getExtras();
         if (arguments != null) {
@@ -97,6 +109,14 @@ public class DrugInfoCard extends AppCompatActivity {
 
         closeButton.setOnClickListener(v -> {
             finish();
+        });
+
+        String finalUsername = username;
+        String finalToken = token;
+        String finalDrugName = drugName;
+        removeDrug.setOnClickListener(v -> {
+            flag = true;
+            getDrugBarcode(finalUsername, finalToken, finalDrugName);
         });
     }
 
@@ -117,6 +137,12 @@ public class DrugInfoCard extends AppCompatActivity {
         getDrugBarcode(username, token, drugName);
     }
 
+    /**
+     * Get barcode by drug name
+     * @param username username
+     * @param token user token
+     * @param drugName drug name
+     */
     public void getDrugBarcode(String username, String token, String drugName) {
         String url = URL_GET_BARCODE + drugName;
         Request request = new Request.Builder()
@@ -137,6 +163,10 @@ public class DrugInfoCard extends AppCompatActivity {
                     DrugInfoCard.this.runOnUiThread(() -> {
                         StringDto barcode = gson.fromJson(data, StringDto.class);
                         getDrugData(barcode.getData(), token);
+                        if(flag){
+                            flag = false;
+                            removeDrugFromMedKit(username, token, barcode.getData());
+                        }
                     });
                 } else {
                     DrugInfoCard.this.runOnUiThread(() -> {
@@ -165,6 +195,7 @@ public class DrugInfoCard extends AppCompatActivity {
                 Toast.makeText(DrugInfoCard.this, "Connection to the server is refused", Toast.LENGTH_SHORT).show();
             }
 
+            @SuppressWarnings("deprecation")
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String data = response.body().string();
@@ -175,15 +206,29 @@ public class DrugInfoCard extends AppCompatActivity {
                             DateFormat df3 = new SimpleDateFormat("dd-MM-yyyy");
                             df3.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
 
+                            DateFormat df2 = new SimpleDateFormat("HH:mm");
+                            df3.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"));
+
                             drugDescription.setText(dto.getDescription());
                             drugName.setText(dto.getName());
-                            userGroup.setText(dto.getGroup());
-                            System.out.println(dto.getNumOfPills().toString());
-                            pillsLeft.setText(dto.getNumOfPills().toString());
-                            startTakeDate.setText(df3.format(dto.getStartTakePillsTime()));
-                            expireDate.setText(df3.format(dto.getExpDate()));
-//                            takePillsTime.setText(dt);
-                            getDrugTakeTime(barcode, token);
+                            userGroup.setText(String.format("Family member: %s", dto.getGroup()));
+                            pillsLeft.setText(String.format("Pills left: %s", dto.getNumOfPills().toString()));
+                            startTakeDate.setText(String.format("Start take date: %s", df3.format(dto.getStartTakePillsTime())));
+                            expireDate.setText(String.format("Expire date: %s", df3.format(dto.getExpDate())));
+//                            getDrugTakeTime(barcode, token);
+                            StringBuilder result = new StringBuilder("Take time daily at: ");
+
+                            for (int i = 0; i < dto.getNumOfPillsPerDay(); i++) {
+                                Date takeTimeDate = new Date();
+                                int step = (22-8)/dto.getNumOfPillsPerDay();
+                                takeTimeDate.setHours(0);
+                                takeTimeDate.setHours(8+step*(i+1));
+                                takeTimeDate.setMinutes(0);
+                                takeTimeDate.setSeconds(0);
+                                Log.e(TAG, df2.format(takeTimeDate));
+                                result.append(df2.format(takeTimeDate)).append(" ");
+                            }
+                            takePillsTime.setText(result.toString());
                         }
                     });
                 } else {
@@ -224,6 +269,7 @@ public class DrugInfoCard extends AppCompatActivity {
                             StringBuilder result = new StringBuilder("Take time daily at: ");
 
                             for (int i = 0; i < dates.getDate().size(); i++) {
+                                Log.e(TAG, i + "onResponse: "+ df3.format(dates.getDate().get(i)));
                                 result.append(df3.format(dates.getDate().get(i))).append("  ");
                             }
                             System.out.println(result.toString());
@@ -238,4 +284,46 @@ public class DrugInfoCard extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Method removes drug from user's med kit
+     * @param username username
+     * @param token user token
+     * @param barcode drug barcode
+     */
+    public void removeDrugFromMedKit(String username, String token, String barcode) {
+        DeleteFromMedKitDto deleteFromMedKitDto = new DeleteFromMedKitDto(username, barcode);
+        RequestBody body = RequestBody.create(gson.toJson(deleteFromMedKitDto), JSON);
+        Request request = new Request.Builder()
+                .url(URL_REMOVE_DRUG)
+                .addHeader("Authorization", "Bearer_" + token)
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Toast.makeText(DrugInfoCard.this, "Connection to the server is refused", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String data = response.body().string();
+                if (response.code() == 200) {
+                    DrugInfoCard.this.runOnUiThread(() -> {
+                        Toast.makeText(DrugInfoCard.this, "Drug deleted successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    });
+                } else {
+                    DrugInfoCard.this.runOnUiThread(() -> {
+                        System.out.println("Something went wrong");
+                    });
+                }
+            }
+        });
+    }
+
 }
