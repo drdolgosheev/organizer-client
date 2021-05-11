@@ -133,6 +133,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         holder.layout.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, DrugInfoCard.class);
                 intent.putExtra("name", mName.get(position));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
         });
     }

@@ -13,17 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Organazerclient"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.DrugInfoCard"
-            android:theme="@style/AppTheme.Transparent"/>
+        <activity android:name=".activities.UserProfile"></activity>
+        <activity
+            android:name=".activities.DrugInfoCard"
+            android:theme="@style/AppTheme.Transparent" />
         <activity android:name=".services.Scaner" />
-        <activity android:name=".activities.activity_add_drug"
-            android:theme="@style/AppTheme.Transparent"/>
-        <activity android:name=".activities.MainActivity">
-        </activity>
+        <activity
+            android:name=".activities.activity_add_drug"
+            android:theme="@style/AppTheme.Transparent" />
+        <activity android:name=".activities.MainActivity"></activity>
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,16 +42,12 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/drug_treatment" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/main" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="some_channel_id" />
-
-
     </application>
 
 </manifest>

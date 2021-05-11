@@ -4,10 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,16 +51,20 @@ public class MainActivity extends AppCompatActivity {
     private static final Gson gson = new Gson();
     private static final OkHttpClient client = new OkHttpClient();
     private String GETMEDKIT_URL = "http://20.84.66.14:1335/api/v1/user/get/medKit/";
+    private String REFRESH_DRUG_NUMBER = "http://20.84.66.14:1335/api/v1/drug/recountNumberOfPills/"; // + barcode
     String token = "";
     String username = "";
     public static final String myPrefs = "myprefs";
     public static final String nameKeyUsername = "username";
     public static final String nameKeyToken = "token";
     SharedPreferences mySharedPreferences;
+    String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.ResycleView);
         addDrugButton = (FloatingActionButton) findViewById(R.id.floatingActionButton_addDrug);
@@ -79,6 +89,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        setTheme(R.style.TransparentTheme);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.logout :
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
+            case R.id.action_profile_settings:
+                return true;
+        }
+        //headerView.setText(item.getTitle());
+        return super.onOptionsItemSelected(item);
     }
 
     private void initRecyclerView(){
@@ -107,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                         Drug[] drugs_ans = gson.fromJson(data, Drug[].class);
 
                         for (Drug drug : drugs_ans) {
+                            refreshNumberOfPills(token, drug.getBarcode());
                             mName.add(drug.getName());
                             mGroup.add("Family member: " + drug.getUserGroup());
                             mNextTakeTime.add("Next take time is tomorrow");
@@ -119,8 +156,33 @@ public class MainActivity extends AppCompatActivity {
                     });
                 } else {
                     MainActivity.this.runOnUiThread(() -> {
-                        System.out.println("Invalid token");
-                        Toast.makeText(MainActivity.this, "Invalid token", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Server code: " + response.code());
+                    });
+                }
+            }
+        });
+    }
+
+    public void refreshNumberOfPills(String token, String barcode){
+        Request request = new Request.Builder()
+                .url(REFRESH_DRUG_NUMBER + barcode)
+                .addHeader("Authorization", "Bearer_" + token)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Toast.makeText(MainActivity.this, "Connection to the server is refused", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String data = response.body().string();
+                if (response.code() == 200) {
+                    Log.e(TAG, "onResponse: drug counters refreshed, server answer: " + data);
+                } else {
+                    MainActivity.this.runOnUiThread(() -> {
+                        Log.e(TAG, "onResponse: server code: " + response.code());
                     });
                 }
             }
