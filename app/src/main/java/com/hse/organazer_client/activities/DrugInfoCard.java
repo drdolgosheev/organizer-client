@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.hse.organazer_client.R;
-import com.hse.organazer_client.entities.dto.AuthDtoFromServer;
 import com.hse.organazer_client.entities.dto.DatesDto;
 import com.hse.organazer_client.entities.dto.DeleteFromMedKitDto;
 import com.hse.organazer_client.entities.dto.DrugFullDto;
@@ -90,7 +88,7 @@ public class DrugInfoCard extends AppCompatActivity {
         );
         setContentView(R.layout.activity_drug_info_card);
 
-        image = findViewById(R.id.drug_image);
+        image = findViewById(R.id.user_photo);
         takePillsTime = findViewById(R.id.drug_info_user_take_time_text_view);
         userGroup = findViewById(R.id.drug_info_user_group_text_view);
         drugName = findViewById(R.id.drug_info_name_textView);

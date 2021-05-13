@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/drug_image"
+        android:id="@+id/user_photo"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/drug" />
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_toRightOf="@id/drug_image"
+        android:layout_toRightOf="@id/user_photo"
         android:text="Парацетамол"
         android:textColor="#000"
         android:textSize="20sp" />
@@ -29,7 +29,7 @@
         android:layout_below="@+id/drug_name"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="8dp"
-        android:layout_toRightOf="@id/drug_image"
+        android:layout_toRightOf="@id/user_photo"
         android:text="Бабушка"
         android:textColor="#000" />
 
@@ -37,7 +37,7 @@
         android:id="@+id/start_take_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/drug_image"
+        android:layout_alignTop="@+id/user_photo"
         android:layout_marginTop="97dp"
         android:text="Время начала приема: "
         android:textColor="#000"
@@ -65,8 +65,8 @@
         android:layout_marginStart="38dp"
         android:layout_marginLeft="38dp"
         android:layout_marginTop="13dp"
-        android:layout_toEndOf="@+id/drug_image"
-        android:layout_toRightOf="@+id/drug_image"
+        android:layout_toEndOf="@+id/user_photo"
+        android:layout_toRightOf="@+id/user_photo"
         android:text="Next take time is tomorrow"
         android:textColor="#000"
         android:textSize="11sp" />

@@ -1,16 +1,19 @@
 package com.hse.organazer_client.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -93,9 +96,42 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        setTheme(R.style.TransparentTheme);
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
+        }
+
+        if (searchView != null) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    getFilteredData(GETMEDKIT_URL, token, query);
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    if(newText.isEmpty()) {
+                        get(GETMEDKIT_URL, token);
+                    }
+                    return false;
+                }
+            });
+        }
+
+        return super.onCreateOptionsMenu(menu);
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return true;
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -111,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_profile_settings:
+                Intent intentProfile = new Intent(getApplicationContext(), UserProfile.class);
+                startActivity(intentProfile);
                 return true;
         }
         //headerView.setText(item.getTitle());
@@ -141,6 +179,14 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     MainActivity.this.runOnUiThread(() -> {
                         Drug[] drugs_ans = gson.fromJson(data, Drug[].class);
+
+                        mName.clear();
+                        mGroup.clear();
+                        mNextTakeTime.clear();
+                        mStartTakeTime.clear();
+                        mStopTakeTime.clear();
+                        pillPerDay.clear();
+                        drugs.clear();
 
                         for (Drug drug : drugs_ans) {
                             refreshNumberOfPills(token, drug.getBarcode());
@@ -183,6 +229,57 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     MainActivity.this.runOnUiThread(() -> {
                         Log.e(TAG, "onResponse: server code: " + response.code());
+                    });
+                }
+            }
+        });
+    }
+
+    public void getFilteredData(String url, String token, String filter){
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer_" + token)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Toast.makeText(MainActivity.this, "Connection to the server is refused", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String data = response.body().string();
+                if (response.code() == 200) {
+                    MainActivity.this.runOnUiThread(() -> {
+                        Drug[] drugs_ans = gson.fromJson(data, Drug[].class);
+                        mName.clear();
+                        mGroup.clear();
+                        mNextTakeTime.clear();
+                        mStartTakeTime.clear();
+                        mStopTakeTime.clear();
+                        pillPerDay.clear();
+                        drugs.clear();
+                        for (Drug drug : drugs_ans) {
+                            String lowerFilter = filter.toLowerCase();
+                            String filterName = drug.getName().toLowerCase();
+                            String groupFilter = drug.getUserGroup().toLowerCase();
+                            if(filterName.equals(lowerFilter) || groupFilter.equals(lowerFilter)) {
+                                refreshNumberOfPills(token, drug.getBarcode());
+                                mName.add(drug.getName());
+                                mGroup.add("Family member: " + drug.getUserGroup());
+                                mNextTakeTime.add("Next take time is tomorrow");
+                                mStartTakeTime.add(drug.getStartTakePillsTime());
+                                mStopTakeTime.add(drug.getExpDate());
+                                pillPerDay.add(drug.getTakePillsInterval());
+                                drugs.add(drug);
+                            }
+                        }
+                        initRecyclerView();
+                    });
+                } else {
+                    MainActivity.this.runOnUiThread(() -> {
+                        Log.e(TAG, "Server code: " + response.code());
                     });
                 }
             }
