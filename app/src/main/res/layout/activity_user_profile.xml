@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Upload"
+        android:textColor="#000"
+        android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +38,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
+        android:textColor="#000"
+        android:textSize="15sp"
         android:text="Username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_upload_photo" />
@@ -47,6 +51,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:textColor="#000"
+        android:textSize="15sp"
         android:text="Email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_first_name_tag" />
@@ -59,6 +65,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
         android:text="Full name"
+        android:textColor="#000"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_username_tag" />
 
@@ -70,6 +78,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:text="Change password"
+        android:textColor="#000"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_email_tag" />
 
