@@ -219,9 +219,17 @@ public class DrugInfoCard extends AppCompatActivity {
                             drugDescription.setText(dto.getDescription());
                             drugName.setText(dto.getName());
                             userGroup.setText(String.format("Family member: %s", dto.getGroup()));
-                            pillsLeft.setText(String.format("Pills left: %s", dto.getNumOfPills().toString()));
+                            if(dto.getNumOfPills()<=0){
+                                pillsLeft.setText("No pills left");
+                            }else {
+                                pillsLeft.setText(String.format("Pills left: %s", dto.getNumOfPills().toString()));
+                            }
                             startTakeDate.setText(String.format("Start take date: %s", df3.format(dto.getStartTakePillsTime())));
-                            expireDate.setText(String.format("Expire date: %s", df3.format(dto.getExpDate())));
+                            if(dto.getExpDate().before(new Date())){
+                                expireDate.setText("Expired! Please buy new one");
+                            }else {
+                                expireDate.setText(String.format("Expire date: %s", df3.format(dto.getExpDate())));
+                            }
 //                            getDrugTakeTime(barcode, token);
                             StringBuilder result = new StringBuilder("Take time daily at: ");
 

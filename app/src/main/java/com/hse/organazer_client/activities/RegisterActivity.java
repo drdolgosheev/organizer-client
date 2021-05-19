@@ -52,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (username.getText().toString().isEmpty() ||
                     firstName.getText().toString().isEmpty() || lastName.getText().toString().isEmpty() ||
                     email.getText().toString().isEmpty() || password.getText().toString().isEmpty()) {
-                Toast.makeText(RegisterActivity.this, "Не все поля заполненны",
+                Toast.makeText(RegisterActivity.this, "Some fields are empty",
                         Toast.LENGTH_SHORT).show();
             } else {
                 RegisterDtoUserToServer user = new RegisterDtoUserToServer(username.getText().toString(),
@@ -65,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public Boolean register(RegisterDtoUserToServer user) {
         if (!EmailValidator.isValidEmailAddress(user.getEmail())) {
-            Toast.makeText(RegisterActivity.this, "Невалидная почта",
+            Toast.makeText(RegisterActivity.this, "Invalid email",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -92,12 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                     RegisterActivity.this.runOnUiThread(() -> {
                         System.out.println(response_loc);
                         Toast.makeText(RegisterActivity.this, response_loc, Toast.LENGTH_SHORT).show();
-                        //todo: send data to next activity using AuthDtoFromServer and gson
-//                        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
-//                                Intent.FLAG_ACTIVITY_NEW_TASK);
-//                        startActivity(intent);
-//                        finish();
+                        finish();
                     });
                 } else {
                     RegisterActivity.this.runOnUiThread(() -> {

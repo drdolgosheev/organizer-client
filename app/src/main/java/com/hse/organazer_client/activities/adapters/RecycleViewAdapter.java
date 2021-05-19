@@ -122,7 +122,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             }
         }
 
-        holder.stop_take_time.setText("Expire time date: " + df1.format(mStopTakeTime.get(position)));
+        if (mStopTakeTime.get(position).before(new Date())){
+            holder.stop_take_time.setText("Expired, please buy new one");
+        }else {
+            holder.stop_take_time.setText("Expire time date: " + df1.format(mStopTakeTime.get(position)));
+        }
 
         holder.start_take_time.setText("Start take date: " + df1.format(mStartTakeTime.get(position)));
 
